@@ -1,13 +1,18 @@
 package com.itbank.model;
 
-//IDX      NOT NULL NUMBER        
-//USERID   NOT NULL VARCHAR2(500) 
-//USERPW   NOT NULL VARCHAR2(500) 
-//EMAIL    NOT NULL VARCHAR2(500) 
-//NICKNAME NOT NULL VARCHAR2(500) 
-//ROLE     NOT NULL NUMBER   
+
+
+//		IDX      NOT NULL NUMBER        
+//		USERID   NOT NULL VARCHAR2(500) 
+//		USERPW   NOT NULL VARCHAR2(500) 
+//		EMAIL    NOT NULL VARCHAR2(500) 
+//		NICKNAME NOT NULL VARCHAR2(500) 
+//		ROLE     NOT NULL NUMBER        
+//		PNUM     NOT NULL VARCHAR2(500) 
+//		NAVER_ID          VARCHAR2(500) 
 
 public class MemberDTO {
+
 
 	private int idx;
 	private String userid;
@@ -15,7 +20,49 @@ public class MemberDTO {
 	private String email;
 	private String nickname;
 	private int role;
+	private String pnum;
 	
+	
+	private String naver_id;
+	
+	
+	
+	public String getNaver_id() {
+		return naver_id;
+	}
+	public void setNaver_id(String naver_id) {
+		this.naver_id = naver_id;
+	}
+	public String getPnum() {
+		return pnum;
+	}
+	public void setPnum(String pnum) {
+		this.pnum = pnum;
+	}
+	private String name;
+	private String store_name;
+	private int store_idx;
+	
+	
+	
+	public int getStore_idx() {
+		return store_idx;
+	}
+	public void setStore_idx(int store_idx) {
+		this.store_idx = store_idx;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getStore_name() {
+		return store_name;
+	}
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
 	public int getIdx() {
 		return idx;
 	}
@@ -52,6 +99,5 @@ public class MemberDTO {
 	public void setRole(int role) {
 		this.role = role;
 	}
-	
 	
 }

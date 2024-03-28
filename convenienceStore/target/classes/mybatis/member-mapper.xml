@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.MemberDAO">
+
+	
+	<select id="selectMemberByUserId" parameterType="string" resultType="member">
+		select * from member where userid = #{userid}
+	</select>
+
+	<select id="selectMemberByEmail" parameterType="oauth" resultType="member">
+		select * from member where email = #{email}	
+	</select> 
+	
+	<select id="findByOauthId" parameterType="oauth" resultType="member">
+		select * from member where ${provider}_id = #{id}
+	</select>
+	
+	<update id="updateId" parameterType="oauth">
+		update member
+			set 
+				${provider}_id = #{id}
+			where
+				email = #{email}
+	</update>
+	
+	<select id="loginNaver" parameterType="oauth">
+		select * from member where naver_id = #{id}
+	</select>
+	
+</mapper>
+

@@ -9,8 +9,11 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.100:1521:xe" />
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.100:1521:xe" /> -->
+
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.1.100:1521:xe" />
 		<property name="username" value="c##itproject" />
 		<property name="password" value="1234" />
 	</bean>
@@ -21,11 +24,12 @@
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-<!-- 		<property name="mapperLocations"> -->
-<!-- 			<list> -->
-<!-- 				<value>classpath:mybatis/survey-mapper.xml</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
+		<property name="configLocation" value="classpath:mybatis/config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mybatis/member-mapper.xml</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
@@ -35,7 +39,10 @@
 	<context:component-scan base-package="com.itbank.service" />
 	<context:component-scan base-package="com.itbank.component" />
 	<context:component-scan base-package="com.itbank.exception" />
+	<context:component-scan base-package="com.itbank.oauth2" />
 	
 	<mybatis-spring:scan base-package="com.itbank.repository" />
+	<!-- 지정한 패키지에서 인터페이스 형태의 DAO를 스캔한다 -->
 		
 </beans>
+
