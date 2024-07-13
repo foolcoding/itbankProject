@@ -1,5 +1,3 @@
-<hr>
-
 # 프로젝트 소개
 **네이버 api를 활용한 로그인, 토스 api 를 활용한 상품 결제, 채팅문의, 카카오맵 기반 서비스   
 매장관리, 상품픽업, 나만의 냉장고 등의 기능을 구현한 편의점 사이트 입니다.**
@@ -14,17 +12,17 @@
 
 <hr>
 
-
+<br><br>
 ### 개발 인원 (5인)
 최현웅, 오예랑, 김유빈, 황민정, 배진호 
 
 
-
+<br><br>
 ### 개발기간
 24.03.07 ~ 24.04.04 (약 1달)
 
 
-
+<br><br>
 ### 개발환경
 **BackEnd** : Java, JSP, Spring Framework  
 **DataBase** : Oracle DB  
@@ -35,13 +33,13 @@
 
 **Tools** : sts / SQL developer / VScode
 
-
+<br><br>
 ### 의존성
 HikariCP, mybatis, commons-fileupload,   
 jackson-databind, spring-websocket,   
 spring-integration-stomp, jakarta.mail, scribejava  
 
-
+<br><br>
 ### 사용한 API
 naver login API  
 Kakao map API
@@ -56,7 +54,7 @@ toss payments API
 
 <br>
 
-### ERD
+### ERD (테이블 21개 사용)
 
 ![ERD 수정](https://github.com/foolcoding/itbankProject/assets/141770025/6c132d98-48c3-41bb-991b-83565271f377)
 
