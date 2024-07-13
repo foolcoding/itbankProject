@@ -28,9 +28,9 @@
 ### 개발환경
 **BackEnd** : Java, JSP, Spring Framework  
 **DataBase** : Oracle DB  
-**FrontEnd** : JavaScript, HTML, CSS
-**Server** : Tomcat
-**Collaboration** : Git  
+**FrontEnd** : JavaScript, HTML, CSS<br>
+**Server** : Tomcat<br>
+**Collaboration** : Git<br>
 
 
 **Tools** : sts / SQL developer / VScode
