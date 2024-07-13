@@ -83,7 +83,7 @@ toss payments API
 
 
 ### 데이터 크롤링
-- beautiful soup 와 selinium 을 이용하여 편의점 사이트에 있는 상품 데이터를 추출
+- beautiful soup 와 selenium 을 이용하여 편의점 사이트에 있는 상품 데이터를 추출
 
 
 <hr>
@@ -123,7 +123,7 @@ toss payments API
 
 
 ### 나만의 냉장고
-- 나만의 냉장고에 결제내역에 따른 상품 저장
+- 결제내역에 따른 상품 저장
 
 
 <hr>
@@ -131,7 +131,7 @@ toss payments API
 ### 김유빈
 - 1:1 문의 채팅
 - 채팅방 관리
-- FAQ게시판 관리
+- FAQ게시판
 
   
 ### 1:1 문의
