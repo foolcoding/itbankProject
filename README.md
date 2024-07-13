@@ -5,14 +5,18 @@
 매장관리, 상품픽업, 나만의 냉장고 등의 기능을 구현한 편의점 사이트 입니다.**
 
 
+
+
 # 프로젝트 선정이유
 **모두에게 친숙한 소재를 다루고 싶었으며, '우리동네편의점' 어플을 참고하여 프로젝트를 진행하였습니다.**
+
+
 
 <hr>
 
 
-### 개발 인원 
-최현웅, 오예랑, 김유빈, 황민정, 배진호 (5인)
+### 개발 인원 (5인)
+최현웅, 오예랑, 김유빈, 황민정, 배진호 
 
 
 
@@ -24,9 +28,10 @@
 ### 개발환경
 **BackEnd** : Java, JSP, Spring Framework  
 **DataBase** : Oracle DB  
-**FrontEnd** : JavaScript, HTML, CSS, 
+**FrontEnd** : JavaScript, HTML, CSS
 **Server** : Tomcat
 **Collaboration** : Git  
+
 
 **Tools** : sts / SQL developer / VScode
 
