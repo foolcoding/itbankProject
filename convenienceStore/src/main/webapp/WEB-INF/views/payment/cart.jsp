@@ -318,7 +318,9 @@
 					<div>
 						<div class="delete flex sb">
 							<div class="title">
-								${cart.name } 							
+								<div class="productName">
+									${cart.name }
+								</div>				
 								<c:if test="${not fn:contains(cart.event,'없음') }">
 									[${cart.event }]
 								</c:if>
@@ -410,7 +412,7 @@
 		let sumPrice = 0
 	    let checkboxes = document.querySelectorAll('.productCheckbox:checked')
 	    let discvalue = document.getElementById('selectedCouponDiscValue').value
-	    
+
 	    // 체크된 체크박스 개수
 	    document.getElementById('checkedCount').textContent = checkboxes.length
 	    
@@ -445,7 +447,7 @@
 	    checkbox.addEventListener('change', updateCheckedCountAndPrice)
 	})
 	
-	// 쿠폰 선택 버튼을 누르면 그 버튼의 
+	// 쿠폰 선택 버튼을 누르면 쿠폰 선택화면 띄움
 	document.querySelectorAll('.couponSelect').forEach(function(button) {
         button.addEventListener('click', function(event) {
             const discValue = event.target.getAttribute('data-discvalue')
@@ -505,6 +507,7 @@
 	
 	// 구매하기 버튼 눌렀을때 실행
 	document.getElementById('purchaseBtn').addEventListener('click', function() {
+		
 		const tossPayments = TossPayments('test_ck_6bJXmgo28eNOA6yQyObw3LAnGKWx')
 		const amount = updateCheckedCountAndPrice()
 		const orderId = generateUniqueRandom()
@@ -513,19 +516,19 @@
 	    let formData = new FormData()
 		
 		let successUrl = window.location.origin + '${cpath}/payment/success?'
-				
+		
 		// 체크된 상품의 목록을 가져옴
 	    let checkedItems = document.querySelectorAll('.productCheckbox:checked');
 	    let orderName = '픽업주문';
 	    if(checkedItems.length > 0) {
 	        // 첫 번째 상품의 이름을 가져옴
-	        let firstItemName = checkedItems[0].closest('.cartDetail').querySelector('.title').textContent.trim();
+	        let firstItemName = checkedItems[0].closest('.cartDetail').querySelector('.productName').textContent.trim();
 	        // 첫 번째 상품명 뒤에 "외 n건" 추가
 	        let length = checkedItems.length - 1
 	        orderName = firstItemName + (length > 1 ? '외' + length + '건' : '')
 	        successUrl += 'orderName=' + orderName + '&'
 	    }
-	   	
+
 	    // 체크박스의 value(cart의 idx)를 담음
 	    document.querySelectorAll('.productCheckbox:checked').forEach(function(item) {
 	        formData.append('idx', item.value)
