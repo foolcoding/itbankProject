@@ -55,7 +55,7 @@ public class PaymentService {
 							int[] storageCnt, 
 							MemberDTO member, 
 							String orderName, 
-							String method) {
+							String method, int couponIdx) {
 		// 상품의 price가 포함된 cartList
 		List<CartDTO> cart = selectCartList(idx);
 
@@ -64,7 +64,7 @@ public class PaymentService {
 		int store_idx = cart.get(0).getStore_idx();
 		String pickupCode = UUID.randomUUID().toString().substring(0, 8);
 
-		orderService.placeOrder(userid, paymentKey, orderId, amount, store_idx, pickupCode, cart, storageCnt);
+		orderService.placeOrder(userid, paymentKey, orderId, amount, store_idx, pickupCode, cart, storageCnt, couponIdx, idx);
 		
         // 결제정보 이메일 보내기
         HashMap<String, Object> param = new HashMap<String, Object>();

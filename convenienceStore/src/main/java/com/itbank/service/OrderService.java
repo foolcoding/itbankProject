@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.itbank.exception.CouponAlreadyUsedException;
 import com.itbank.exception.OutOfStockException;
 import com.itbank.model.CartDTO;
 import com.itbank.repository.PaymentRepository;
@@ -30,7 +31,13 @@ public class OrderService {
     @Transactional
     public void placeOrder(String userid, String paymentKey, String orderId, int amount,
                            int store_idx, String pickupCode,
-                           List<CartDTO> cart, int[] storageCnt) {
+                           List<CartDTO> cart, int[] storageCnt,
+                           int couponIdx, int[] cartIdx) {
+
+        // 0) 멱등성: 이미 처리된 주문이면 아무 작업도 하지 않는다 (재시도/중복 요청 대비)
+        if (pr.countOrder(orderId) > 0) {
+            return;
+        }
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("userid", userid);
@@ -68,6 +75,21 @@ public class OrderService {
             if (rescount > 0) {
                 map.put("rescount", rescount);
                 pr.insertStorage(map);
+            }
+        }
+
+        // 5) 쿠폰 원자적 사용 (아직 사용되지 않은 경우에만). 이미 사용됐으면 예외 → 전체 롤백
+        if (couponIdx != 0) {
+            int used = pr.useCoupon(couponIdx);
+            if (used == 0) {
+                throw new CouponAlreadyUsedException(couponIdx);
+            }
+        }
+
+        // 6) 결제된 상품을 장바구니에서 제거 (같은 트랜잭션 안에서 처리해 정합성 보장)
+        if (cartIdx != null) {
+            for (int idx : cartIdx) {
+                pr.removeCart(idx);
             }
         }
     }

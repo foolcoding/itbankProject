@@ -83,6 +83,7 @@
             <include>com/itbank/repository/PaymentRepository.java</include>
             <include>com/itbank/model/CartDTO.java</include>
             <include>com/itbank/exception/OutOfStockException.java</include>
+            <include>com/itbank/exception/CouponAlreadyUsedException.java</include>
           </includes>
         </configuration>
       </plugin>

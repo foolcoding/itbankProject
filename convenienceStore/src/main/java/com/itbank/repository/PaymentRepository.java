@@ -53,5 +53,14 @@ public interface PaymentRepository {
 
 	@Select(" select name from store where idx = #{store_idx} ")
 	String selectStoreName(int store_idx);
-	
+
+	// 멱등성: 같은 orderId 가 이미 처리됐는지 확인
+	@Select(" select count(*) from orders where idx = #{orderId} ")
+	int countOrder(String orderId);
+
+	// 쿠폰 원자적 사용: 아직 사용되지 않은 경우에만 사용 처리, 영향 행이 0이면 이미 사용됨
+	@Update(" update usercoupon set useddate = current_timestamp "
+			+ " where idx = #{couponIdx} and useddate is null ")
+	int useCoupon(int couponIdx);
+
 }

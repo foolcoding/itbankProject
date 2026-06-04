@@ -71,16 +71,10 @@ public class PaymentController {
 	        String userid = member.getUserid();
 	        
 	        // 결재관련 DB에 데이터 저장, 재고현황 업데이트, 이메일 보내기
-	        ps.setOrderInfo(userid, paymentKey, orderId, amount, idx, storageCnt, member, orderName, method);
+	        ps.setOrderInfo(userid, paymentKey, orderId, amount, idx, storageCnt, member, orderName, method, couponIdx);
 	        
-	        // 결제에 포함된 상품만 장바구니에서 삭제
-	        ps.removeCart(idx);
-	        
-	        // 쿠폰을 사용했다면 사용처리
-	        if(couponIdx != 0) {
-	        	int row = cs.updateCoupon(couponIdx);
-	        }
-	        
+	        // 장바구니 비우기·쿠폰 사용은 위 setOrderInfo → placeOrder 트랜잭션 안에서 함께 처리된다
+
 	        session.setAttribute("count", 0);
 	        return "payment/success";
 
