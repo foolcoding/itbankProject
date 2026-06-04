@@ -201,5 +201,3 @@ toss payments API
 - **재고 동시성** : `update ... set cnt = cnt - ? where ... and cnt >= ?` 원자적 조건부 차감 + 영향 행 0이면 `OutOfStockException` → 롤백 (락 없이 초과판매·재고 음수 차단)
 - **검증** : H2 인메모리 독립 테스트(`convenienceStore/tx-harness/`)로 ① 부분 실패 전체 롤백 ② 동시 주문 10건 vs 재고 1개 → 1건만 성공 검증
 
-설계·근거 : [`convenienceStore/docs/order-transaction-design.md`](convenienceStore/docs/order-transaction-design.md)
-
