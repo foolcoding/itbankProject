@@ -18,6 +18,7 @@ public class PaymentService {
 
 	@Autowired private PaymentRepository pr;
 	@Autowired private MailComponent mc;
+	@Autowired private OrderService orderService;
 
 	public List<CartDTO> cartList(String userid) {
 		return pr.cartList(userid);
@@ -58,43 +59,12 @@ public class PaymentService {
 		// 상품의 price가 포함된 cartList
 		List<CartDTO> cart = selectCartList(idx);
 
-		// orders에 넣기위한 store_idx와 pickupCode 생성
+		// 주문 확정(주문 헤더/상세 + 재고 차감 + 픽업물품)을 하나의 트랜잭션으로 처리한다.
+		// 한 단계라도 실패하면 OrderService 안에서 전체 롤백되고, 재고 부족 시 OutOfStockException 이 전파된다.
 		int store_idx = cart.get(0).getStore_idx();
 		String pickupCode = UUID.randomUUID().toString().substring(0, 8);
-		String orderdetail_idx = "";
 
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("userid", userid);
-		map.put("paymentKey", paymentKey);
-		map.put("orderId", orderId);
-		map.put("amount", amount);
-		map.put("store_idx", store_idx);
-		map.put("pickupCode", pickupCode);
-		
-		// 결제 완료된 정보를 orders와 orderdetail와 storageitem에 insert
-		pr.insertOrders(map);
-		
-		for(int i = 0; i < cart.size(); i++) {
-			int product_idx = cart.get(i).getProduct_idx();
-			int cnt = cart.get(i).getCnt() + cart.get(i).getEventCnt();
-			int price = cart.get(i).getPrice() * cart.get(i).getCnt();
-			int rescount = storageCnt[i];
-			orderdetail_idx = UUID.randomUUID().toString().substring(0, 8);
-			
-			map.put("product_idx", product_idx);
-			map.put("cnt", cnt);
-			map.put("price", price);
-			map.put("orderdetail_idx", orderdetail_idx);
-			
-			pr.insertOrderdetail(map);
-			
-			pr.updateInventory(map);
-			
-			if(rescount > 0) {
-				map.put("rescount", rescount);
-				pr.insertStorage(map);
-			}
-		}
+		orderService.placeOrder(userid, paymentKey, orderId, amount, store_idx, pickupCode, cart, storageCnt);
 		
         // 결제정보 이메일 보내기
         HashMap<String, Object> param = new HashMap<String, Object>();

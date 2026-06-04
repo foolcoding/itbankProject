@@ -116,6 +116,7 @@ toss payments API
 - 쿠폰 관리
 - 토스 api 적용
 - 쿠폰이나 행사 상품에 따른 결제 처리
+- (이후 개선) 주문 트랜잭션·재고 정합성 보강 — 하단 참고
 
   
 ### 결제 및 이벤트
@@ -185,4 +186,20 @@ toss payments API
 - 고객센터 관리
 - 전체 상품관리
 - 점주 가입신청 관리
+
+
+<hr>
+
+## 🔧 트랜잭션 · 재고 정합성 보강 (최현웅 · 프로젝트 이후 개선)
+
+> 2024 제출본에는 결제·주문 흐름에 트랜잭션 처리가 없었습니다.
+> 이후 동시성·정합성 학습 과정에서 직접 보강했습니다.
+
+기존 결제 처리는 **주문 헤더 → 주문상세 → 재고 차감 → 픽업물품**을 트랜잭션 없이 순차 실행해, 중간 실패 시 주문이 깨진 상태로 남고 재고 확인이 없어 동시 주문 시 초과판매가 가능했습니다.
+
+- **트랜잭션 처리** : 주문 확정을 `OrderService.placeOrder()`(`@Transactional`)로 분리해, 한 단계라도 실패하면 전체 롤백
+- **재고 동시성** : `update ... set cnt = cnt - ? where ... and cnt >= ?` 원자적 조건부 차감 + 영향 행 0이면 `OutOfStockException` → 롤백 (락 없이 초과판매·재고 음수 차단)
+- **검증** : H2 인메모리 독립 테스트(`convenienceStore/tx-harness/`)로 ① 부분 실패 전체 롤백 ② 동시 주문 10건 vs 재고 1개 → 1건만 성공 검증
+
+설계·근거 : [`convenienceStore/docs/order-transaction-design.md`](convenienceStore/docs/order-transaction-design.md)
 

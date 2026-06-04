@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import com.itbank.exception.OutOfStockException;
 import com.itbank.model.CartDTO;
 import com.itbank.model.MemberDTO;
 import com.itbank.model.UserCouponDTO;
@@ -52,7 +53,7 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/success")
-	public void processPayment(@RequestParam("paymentKey") String paymentKey,
+	public String processPayment(@RequestParam("paymentKey") String paymentKey,
 								@RequestParam("orderId") String orderId,
 								@RequestParam("orderName") String orderName,
 								@RequestParam("method") String method,
@@ -81,9 +82,14 @@ public class PaymentController {
 	        }
 	        
 	        session.setAttribute("count", 0);
-	        
+	        return "payment/success";
+
+	    } catch (OutOfStockException e) {
+	        // 재고 부족: 주문은 롤백되었으므로 실패 페이지로 안내
+	        return "redirect:/payment/fail";
 	    } catch (Exception e) {
 	        e.printStackTrace();
+	        return "redirect:/payment/fail";
 	    }
 	}
 	

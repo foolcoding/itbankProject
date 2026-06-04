@@ -47,8 +47,9 @@ public interface PaymentRepository {
 	void insertStorage(HashMap<String, Object> map);
 
 	@Update(" update inventory set cnt = cnt - #{cnt} "
-			+ " where store_idx = #{store_idx} and product_idx = #{product_idx} ")
-	void updateInventory(HashMap<String, Object> map);
+			+ " where store_idx = #{store_idx} and product_idx = #{product_idx} "
+			+ "   and cnt >= #{cnt} ")
+	int updateInventory(HashMap<String, Object> map);
 
 	@Select(" select name from store where idx = #{store_idx} ")
 	String selectStoreName(int store_idx);
